@@ -70,7 +70,7 @@ const handleCrearPublicacion = async (req, res) => {
     } = req.body;
 
     const usuario_id = req.user.id; // desde el token JWT
-    const imagen = req.file ? req.file.filename : null;
+    const imagen = req.file ? req.file.path : null;
 
     if (!nombre || !precio || !stok) {
       return res.status(400).json({ message: 'Faltan campos obligatorios' });
@@ -97,6 +97,9 @@ const handleCrearPublicacion = async (req, res) => {
     console.error('Error al crear producto:', error);
     res.status(500).json({ message: 'Error al crear el producto' });
   }
+  if (!req.file) {
+  return res.status(400).json({ message: 'Debes subir una imagen' });
+}
 };
 
 const obtenerProductos = async (req, res) => {
